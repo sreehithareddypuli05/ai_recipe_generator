@@ -21,7 +21,7 @@ An AI-powered web application built using **Django** that generates personalized
 * **Backend:** Django (Python)
 * **Frontend:** HTML, CSS, JavaScript, Bootstrap
 * **Database:** SQLite / PostgreSQL
-* **AI Integration:** OpenAI API / HuggingFace API (Optional)
+* **AI Integration:** OpenAI API / HuggingFace API (Optional)/ollama
 * **Version Control:** Git
 
 ---
@@ -148,19 +148,6 @@ pip install python-dotenv
 
 ---
 
-## 📸 Screenshots
-
-> (Add your project screenshots here)
-
-Example:
-
-```
-/home.png
-/result.png
-/login.png
-```
-
----
 
 ## 📝 Requirements File (Sample)
 
@@ -213,17 +200,17 @@ This project is licensed under the MIT License.
 
 ## 👩‍💻 Author
 
-**Your Name**
+**sreehitha reddy puli**
 B.Tech Computer Science Student
-Email: [your@email.com](mailto:your@email.com)
-GitHub: [https://github.com/yourusername](https://github.com/yourusername)
+Email: [sreehithareddypuli@email.com](mailto:sreehithareddypuli@email.com)
+GitHub: [https://github.com/sreehithareddypuli05](https://github.com/sreehithareddypuli05)
 
 ---
 
 ## ❤️ Acknowledgements
 
 * Django Documentation
-* OpenAI / HuggingFace
+* ollama phi3
 * Stack Overflow Community
 
 ---
