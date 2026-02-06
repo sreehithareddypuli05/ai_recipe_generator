@@ -1,0 +1,92 @@
+{% extends 'recipes/base.html' %}
+
+{% block title %}Search Recipes{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0"><i class="fas fa-search"></i> Search Recipes</h4>
+                </div>
+                <div class="card-body">
+                    <form method="get" action="{% url 'search_recipes' %}">
+                        <div class="mb-3">
+                            <label class="form-label">Search by recipe name, ingredients, or category:</label>
+                            {{ form.search_query }}
+                            <small class="form-text text-muted">
+                                Try searching for "chicken", "pasta", "dessert", etc.
+                            </small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                        <a href="{% url 'search_recipes' %}" class="btn btn-secondary">
+                            <i class="fas fa-redo"></i> Clear
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if search_query %}
+    <div class="row mt-5">
+        <div class="col-12">
+            <h3 class="mb-4">
+                Search Results for "{{ search_query }}"
+                <span class="badge bg-primary">{{ results.count }} found</span>
+            </h3>
+            
+            {% if results %}
+            <div class="row">
+                {% for recipe in results %}
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-utensils text-primary"></i> {{ recipe.recipe_name }}
+                            </h5>
+                            
+                            <div class="mb-3">
+                                <span class="badge bg-info">{{ recipe.get_category_display }}</span>
+                                <span class="badge bg-warning">{{ recipe.get_difficulty_display }}</span>
+                                {% if recipe.is_ai_generated %}
+                                <span class="badge bg-success"><i class="fas fa-robot"></i> AI Generated</span>
+                                {% endif %}
+                            </div>
+                            
+                            <p class="card-text">
+                                <strong>Cooking Time:</strong> <i class="fas fa-clock"></i> {{ recipe.cooking_time }} minutes<br>
+                                <strong>Servings:</strong> <i class="fas fa-users"></i> {{ recipe.servings }} people
+                            </p>
+                            
+                            <div class="mb-3">
+                                <strong>Ingredients Preview:</strong>
+                                <p class="text-muted small">
+                                    {{ recipe.ingredients|truncatewords:15 }}
+                                </p>
+                            </div>
+                            
+                            <a href="{% url 'recipe_detail' recipe.id %}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-eye"></i> View Full Recipe
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle"></i> 
+                No recipes found matching "{{ search_query }}". 
+                Try different keywords or 
+                <a href="{% url 'generate_ai_recipe' %}">generate a new recipe with AI</a>.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

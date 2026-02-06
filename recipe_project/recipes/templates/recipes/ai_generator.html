@@ -1,0 +1,137 @@
+{% extends 'recipes/base.html' %}
+
+{% block title %}AI Recipe Generator{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="fas fa-robot"></i> AI Recipe Generator
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <p class="lead">
+                        Enter the ingredients you have available, and our AI will generate a delicious recipe for you!
+                    </p>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <i class="fas fa-carrot"></i> Available Ingredients *
+                            </label>
+                            {{ form.ingredients }}
+                            <small class="form-text text-muted">
+                                {{ form.ingredients.help_text }}
+                            </small>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    <i class="fas fa-globe"></i> Cuisine Type (Optional)
+                                </label>
+                                {{ form.cuisine_type }}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    <i class="fas fa-signal"></i> Difficulty Level (Optional)
+                                </label>
+                                {{ form.difficulty }}
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-lg w-100">
+                            <i class="fas fa-magic"></i> Generate Recipe with AI
+                        </button>
+                    </form>
+                    
+                    <div class="mt-4 p-3 bg-light rounded">
+                        <h6><i class="fas fa-info-circle"></i> How it works:</h6>
+                        <ol class="mb-0">
+                            <li>Enter your available ingredients</li>
+                            <li>Optionally select cuisine type and difficulty</li>
+                            <li>Click generate and our AI will create a custom recipe</li>
+                            <li>The recipe will be automatically saved to the database</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if generated_recipe %}
+    <div class="row mt-5">
+        <div class="col-md-10 offset-md-1">
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i> Recipe generated successfully!
+            </div>
+            
+            <!-- Generated Recipe Display -->
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-magic"></i> Generated Recipe: {{ generated_recipe.recipe_name }}
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-4 text-center">
+                            <div class="p-3 bg-light rounded">
+                                <i class="fas fa-clock fa-2x text-primary mb-2"></i>
+                                <h5>{{ generated_recipe.cooking_time }} mins</h5>
+                                <p class="mb-0 text-muted">Cooking Time</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <div class="p-3 bg-light rounded">
+                                <i class="fas fa-users fa-2x text-success mb-2"></i>
+                                <h5>{{ generated_recipe.servings }}</h5>
+                                <p class="mb-0 text-muted">Servings</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <div class="p-3 bg-light rounded">
+                                <i class="fas fa-signal fa-2x text-warning mb-2"></i>
+                                <h5>{{ generated_recipe.get_difficulty_display }}</h5>
+                                <p class="mb-0 text-muted">Difficulty</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5><i class="fas fa-list"></i> Ingredients:</h5>
+                    <ul class="list-group mb-4">
+                        {% for ingredient in generated_recipe.get_ingredients_list %}
+                        <li class="list-group-item">
+                            <i class="fas fa-check text-success"></i> {{ ingredient }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+
+                    <h5><i class="fas fa-tasks"></i> Preparation Steps:</h5>
+                    <ol class="list-group list-group-numbered">
+                        {% for step in generated_recipe.get_steps_list %}
+                        <li class="list-group-item">{{ step }}</li>
+                        {% endfor %}
+                    </ol>
+
+                    <div class="mt-4 text-center">
+                        <a href="{% url 'recipe_detail' generated_recipe.id %}" class="btn btn-primary">
+                            <i class="fas fa-eye"></i> View Full Recipe
+                        </a>
+                        <a href="{% url 'generate_ai_recipe' %}" class="btn btn-success">
+                            <i class="fas fa-plus"></i> Generate Another Recipe
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

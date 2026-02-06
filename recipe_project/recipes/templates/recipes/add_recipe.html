@@ -1,0 +1,115 @@
+{% extends 'recipes/base.html' %}
+
+{% block title %}Add Recipe{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="fas fa-plus-circle"></i> Add New Recipe
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <p class="lead">Share your favorite recipe with the community!</p>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <i class="fas fa-heading"></i> Recipe Name *
+                            </label>
+                            {{ form.recipe_name }}
+                            {% if form.recipe_name.errors %}
+                                <div class="text-danger">{{ form.recipe_name.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    <i class="fas fa-tag"></i> Category *
+                                </label>
+                                {{ form.category }}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    <i class="fas fa-signal"></i> Difficulty *
+                                </label>
+                                {{ form.difficulty }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    <i class="fas fa-clock"></i> Cooking Time (minutes)
+                                </label>
+                                {{ form.cooking_time }}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    <i class="fas fa-users"></i> Servings *
+                                </label>
+                                {{ form.servings }}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <i class="fas fa-list"></i> Ingredients *
+                            </label>
+                            {{ form.ingredients }}
+                            <small class="form-text text-muted">
+                                Enter one ingredient per line with measurements
+                            </small>
+                            {% if form.ingredients.errors %}
+                                <div class="text-danger">{{ form.ingredients.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <i class="fas fa-tasks"></i> Preparation Steps *
+                            </label>
+                            {{ form.preparation_steps }}
+                            <small class="form-text text-muted">
+                                Enter one step per line
+                            </small>
+                            {% if form.preparation_steps.errors %}
+                                <div class="text-danger">{{ form.preparation_steps.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-save"></i> Save Recipe
+                            </button>
+                            <a href="{% url 'home' %}" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body bg-light">
+                    <h6><i class="fas fa-lightbulb"></i> Tips for adding recipes:</h6>
+                    <ul class="mb-0">
+                        <li>Include specific measurements for ingredients (cups, tablespoons, grams, etc.)</li>
+                        <li>Write clear, step-by-step instructions</li>
+                        <li>Mention cooking temperatures and times</li>
+                        <li>Add any important tips or variations</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

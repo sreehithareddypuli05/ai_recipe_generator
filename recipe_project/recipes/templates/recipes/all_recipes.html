@@ -1,0 +1,123 @@
+{% extends 'recipes/base.html' %}
+
+{% block title %}All Recipes{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2><i class="fas fa-book"></i> All Recipes 
+                <span class="badge bg-primary">{{ recipes.count }}</span>
+            </h2>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-filter"></i> Filter Recipes
+                </div>
+                <div class="card-body">
+                    <form method="get" class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Category</label>
+                            <select name="category" class="form-control" onchange="this.form.submit()">
+                                <option value="">All Categories</option>
+                                <option value="breakfast" {% if selected_category == 'breakfast' %}selected{% endif %}>Breakfast</option>
+                                <option value="lunch" {% if selected_category == 'lunch' %}selected{% endif %}>Lunch</option>
+                                <option value="dinner" {% if selected_category == 'dinner' %}selected{% endif %}>Dinner</option>
+                                <option value="dessert" {% if selected_category == 'dessert' %}selected{% endif %}>Dessert</option>
+                                <option value="snack" {% if selected_category == 'snack' %}selected{% endif %}>Snack</option>
+                                <option value="appetizer" {% if selected_category == 'appetizer' %}selected{% endif %}>Appetizer</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Difficulty</label>
+                            <select name="difficulty" class="form-control" onchange="this.form.submit()">
+                                <option value="">All Levels</option>
+                                <option value="easy" {% if selected_difficulty == 'easy' %}selected{% endif %}>Easy</option>
+                                <option value="medium" {% if selected_difficulty == 'medium' %}selected{% endif %}>Medium</option>
+                                <option value="hard" {% if selected_difficulty == 'hard' %}selected{% endif %}>Hard</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Source</label>
+                            <select name="source" class="form-control" onchange="this.form.submit()">
+                                <option value="">All Recipes</option>
+                                <option value="ai" {% if selected_source == 'ai' %}selected{% endif %}>AI Generated</option>
+                                <option value="manual" {% if selected_source == 'manual' %}selected{% endif %}>Manual</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <a href="{% url 'all_recipes' %}" class="btn btn-secondary">
+                                <i class="fas fa-redo"></i> Clear Filters
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recipe Grid -->
+    {% if recipes %}
+    <div class="row">
+        {% for recipe in recipes %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-utensils text-primary"></i> {{ recipe.recipe_name }}
+                    </h5>
+                    
+                    <div class="mb-3">
+                        <span class="badge bg-info">{{ recipe.get_category_display }}</span>
+                        <span class="badge bg-warning">{{ recipe.get_difficulty_display }}</span>
+                        {% if recipe.is_ai_generated %}
+                        <span class="badge bg-success"><i class="fas fa-robot"></i> AI</span>
+                        {% endif %}
+                    </div>
+                    
+                    <p class="card-text">
+                        <small>
+                            <i class="fas fa-clock"></i> {{ recipe.cooking_time }} mins |
+                            <i class="fas fa-users"></i> {{ recipe.servings }} servings
+                        </small>
+                    </p>
+                    
+                    <p class="card-text text-muted small">
+                        <strong>Ingredients:</strong><br>
+                        {{ recipe.ingredients|truncatewords:10 }}
+                    </p>
+                    
+                    <div class="mt-auto">
+                        <a href="{% url 'recipe_detail' recipe.id %}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-eye"></i> View Recipe
+                        </a>
+                        <a href="{% url 'delete_recipe' recipe.id %}" class="btn btn-danger btn-sm"
+                           onclick="return confirm('Delete this recipe?')">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="card-footer text-muted small">
+                    <i class="fas fa-calendar"></i> Added {{ recipe.created_at|date:"M d, Y" }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info text-center">
+        <i class="fas fa-info-circle"></i> No recipes found matching your filters.
+        <a href="{% url 'all_recipes' %}">Clear filters</a> or 
+        <a href="{% url 'generate_ai_recipe' %}">generate a new recipe</a>.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

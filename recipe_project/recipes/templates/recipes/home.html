@@ -1,0 +1,133 @@
+{% extends 'recipes/base.html' %}
+
+{% block title %}Home - AI Recipe Generator{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container text-center">
+        <h1 class="display-4 mb-4">
+            <i class="fas fa-hat-chef"></i> Welcome to AI Recipe Generator
+        </h1>
+        <p class="lead mb-4">
+            Discover delicious recipes or let AI create custom recipes from your available ingredients!
+        </p>
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-3 col-6 mb-3">
+                <div class="p-3 bg-white text-dark rounded">
+                    <h3>{{ total_recipes }}</h3>
+                    <p class="mb-0">Total Recipes</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="p-3 bg-white text-dark rounded">
+                    <h3><i class="fas fa-robot"></i></h3>
+                    <p class="mb-0">AI Powered</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Quick Actions -->
+    <div class="row mb-5">
+        <div class="col-md-4 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="fas fa-search fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">Search Recipes</h5>
+                    <p class="card-text">Find recipes by name, ingredients, or category</p>
+                    <a href="{% url 'search_recipes' %}" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Search Now
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="col-md-4 mb-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="fas fa-plus-circle fa-3x text-info mb-3"></i>
+                    <h5 class="card-title">Add Your Recipe</h5>
+                    <p class="card-text">Share your favorite recipe with the community</p>
+                    <a href="{% url 'add_recipe' %}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Recipe
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Search -->
+    <div class="row mb-5">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-search"></i> Quick Recipe Search
+                </div>
+                <div class="card-body">
+                    <form method="get" action="{% url 'search_recipes' %}">
+                        <div class="input-group">
+                            {{ search_form.search_query }}
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Recipes -->
+    <h2 class="text-center mb-4">
+        <i class="fas fa-clock"></i> Recent Recipes
+    </h2>
+    
+    {% if recent_recipes %}
+    <div class="row">
+        {% for recipe in recent_recipes %}
+        <div class="col-md-4 mb-4">
+            <div class="card recipe-card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-utensils text-primary"></i> {{ recipe.recipe_name }}
+                    </h5>
+                    <p class="card-text">
+                        <span class="badge bg-info">{{ recipe.get_category_display }}</span>
+                        <span class="badge bg-warning">{{ recipe.get_difficulty_display }}</span>
+                        {% if recipe.is_ai_generated %}
+                        <span class="badge bg-success"><i class="fas fa-robot"></i> AI</span>
+                        {% endif %}
+                    </p>
+                    <div class="mb-2">
+                        <small>
+                            <i class="fas fa-clock"></i> {{ recipe.cooking_time }} mins |
+                            <i class="fas fa-users"></i> {{ recipe.servings }} servings
+                        </small>
+                    </div>
+                    <a href="{% url 'recipe_detail' recipe.id %}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-eye"></i> View Recipe
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="text-center mt-4">
+        <a href="{% url 'all_recipes' %}" class="btn btn-primary">
+            <i class="fas fa-book"></i> View All Recipes
+        </a>
+    </div>
+    {% else %}
+    <div class="alert alert-info text-center">
+        <i class="fas fa-info-circle"></i> No recipes yet. 
+        <a href="{% url 'generate_ai_recipe' %}">Generate your first recipe!</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
