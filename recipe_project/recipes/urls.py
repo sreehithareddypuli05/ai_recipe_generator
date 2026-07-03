@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 from .import chat_views
+from recipes.views import RecommendAPIView
 urlpatterns = [
     path('', views.home, name='home'),
     path('search/', views.search_recipes, name='search_recipes'),
@@ -12,4 +13,7 @@ urlpatterns = [
      path('ai-chat/', chat_views.ai_chat_generator, name='ai_chat'),
     path('chat-with-ai/', chat_views.chat_with_ai, name='chat_with_ai'),
     path('save-recipe-from-chat/', chat_views.save_recipe_from_chat, name='save_recipe_from_chat'),
+    path("api/recommend/", RecommendAPIView.as_view(), name="api-recommend"),
+    path('ai-recommend/', views.ai_recommend_page, name='ai_recommend'),
+    path('ai-recommend/<int:recipe_id>/', views.ai_recommend_detail_page, name='ai_recommend_detail'),
 ]

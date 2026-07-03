@@ -32,6 +32,12 @@ class Recipe(models.Model):
         ],
         default='dinner'
     )
+    youtube_link = models.URLField(
+        max_length=500,
+        blank=True,
+        null=True,
+        help_text="Optional YouTube video link for this recipe (not required)"
+    )
     is_ai_generated = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)

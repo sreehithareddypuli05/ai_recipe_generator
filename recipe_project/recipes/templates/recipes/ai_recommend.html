@@ -1,0 +1,46 @@
+{% extends 'recipes/base.html' %}
+{% load static %}
+
+{% block title %}AI Recipe Recommendations{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0"><i class="fas fa-robot"></i> Find Recipes by Ingredients</h4>
+                </div>
+                <div class="card-body">
+                    <form id="ai-search-form">
+                        <div class="mb-3">
+                            <label class="form-label">Enter ingredients you have (comma-separated):</label>
+                            <input type="text" id="ingredients-input" class="form-control"
+                                   placeholder="e.g. tomato, onion, cheese">
+                            <small class="form-text text-muted">
+                                Powered by AI similarity search across thousands of recipes.
+                            </small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i> Find Recipes
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ai-loading" class="text-center mt-5 d-none">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="text-muted mt-2">Searching for matching recipes...</p>
+    </div>
+
+    <div id="ai-error" class="alert alert-danger mt-4 d-none"></div>
+
+    <div class="row mt-5" id="ai-results"></div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'recipes/js/ai_recommend.js' %}"></script>
+{% endblock %}
