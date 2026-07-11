@@ -1,114 +1,183 @@
-# 🍳 AI Recipe Generator (Django)
+# 🍽️ AI Recipe Generator
 
-An AI-powered web application built using **Django** that generates personalized recipes based on user-provided ingredients, preferences, and dietary requirements.
-
----
-
-## 📌 Features
-
-* 🧠 AI-based recipe generation
-* 🥗 Ingredient-based suggestions
-* 🌱 Supports dietary preferences (Veg/Non-Veg/Vegan)
-* 📱 Responsive user interface
-* 🔐 User authentication (Login/Register)
-* 💾 Save favorite recipes
-* 📊 Admin dashboard
+An intelligent recipe recommendation system that suggests recipes based on the ingredients provided by the user. The project leverages Natural Language Processing (NLP) and Machine Learning to retrieve the most relevant recipes from a large dataset, making meal planning faster and easier.
 
 ---
 
-## 🛠️ Technologies Used
+## 🚀 Features
 
-* **Backend:** Django (Python)
-* **Frontend:** HTML, CSS, JavaScript, Bootstrap
-* **Database:** SQLite / PostgreSQL
-* **AI Integration:** OpenAI API / HuggingFace API (Optional)/ollama
-* **Version Control:** Git
+- 🔍 Search recipes using available ingredients
+- 🤖 AI-powered recipe recommendation engine
+- 📋 Displays recipe name, ingredients, cooking steps, and preparation time
+- ⚡ Fast semantic search using FAISS indexing
+- 🧠 NLP-based ingredient matching with Sentence Transformers
+- 🌐 Simple and responsive web interface built with Django
 
 ---
 
-## 📂 Project Structure
+## 🛠️ Tech Stack
 
-```
-.
-├── db.sqlite3
+### Frontend
+- HTML5
+- CSS3
+- Bootstrap 5
+- JavaScript
+
+### Backend
+- Python
+- Django
+
+### Machine Learning & NLP
+- Sentence Transformers
+- FAISS
+- Scikit-learn
+- Pandas
+- NumPy
+
+### Database
+- SQLite3
+
+---
+
+## 📁 Project Structure
+
+```text
+AI-Recipe-Generator/
+│
+├── datasets/
+│   ├── cleaned/
+│   │   ├── cleaned_recipes.csv
+│   │   ├── cleaned_recipes.pkl
+│   │   └── train_recipe_model.py
+│   │
+│   ├── models/
+│   │   ├── recipe_embeddings.pkl
+│   │   ├── recipe_index.faiss
+│   │   └── recipes.pkl
+│   │
+│   └── raw/
+│       ├── RAW_interactions.csv
+│       └── RAW_recipes.csv
+│
+├── notebooks/
+├── recipe_project/
+├── recipes/
+├── scripts/
+├── requirements.txt
 ├── manage.py
-├── recipe_project
-│   ├── asgi.py
-│   ├── __init__.py
-│   ├── __pycache__
-│   ├── settings.py
-│   ├── urls.py
-│   └── wsgi.py
-└── recipes
-    ├── admin.py
-    ├── ai_service.py
-    ├── apps.py
-    ├── chat_views.py
-    ├── forms.py
-    ├── migrations
-    │   ├── 0001_initial.py
-    │   └── __init__.py
-    ├── models.py
-    ├── templates
-    │   └── recipes
-    │       ├── add_recipe.html
-    │       ├── ai_chat.html
-    │       ├── ai_generator.html
-    │       ├── all_recipes.html
-    │       ├── base.html
-    │       ├── detail.html
-    │       ├── home.html
-    │       └── search.html
-    ├── tests.py
-    ├── urls.py
-    └── views.py
+├── db.sqlite3
+├── .gitignore
+├── .gitattributes
+└── README.md
 ```
 
 ---
 
-## ⚙️ Installation & Setup
+## 📊 Workflow
 
-### 1️⃣ Clone the Repository
-
-```bash
-git clone https://github.com/yourusername/ai_recipe_generator.git
-cd ai_recipe_generator
+```
+Raw Dataset
+      │
+      ▼
+Data Cleaning & Preprocessing
+      │
+      ▼
+Generate Recipe Embeddings
+      │
+      ▼
+Create FAISS Search Index
+      │
+      ▼
+Train Recommendation Model
+      │
+      ▼
+Django Web Application
+      │
+      ▼
+Recipe Recommendations
 ```
 
-### 2️⃣ Create Virtual Environment
+---
 
-```bash
-python -m venv venv
-source venv/bin/activate   # For Linux/Mac
-venv\Scripts\activate      # For Windows
+## 📥 Dataset
+
+The dataset is not included in this repository because of its large size.
+
+Download the dataset from the link below:
+
+**Google Drive:**  
+👉 **<Paste Your Google Drive Link Here>**
+
+After downloading, extract the folder into the project directory:
+
+```text
+AI-Recipe-Generator/
+└── datasets/
 ```
 
-### 3️⃣ Install Dependencies
+---
+
+## ⚙️ Installation
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/sreehithareddypuli05/AI-Recipe-Generator.git
+```
+
+Navigate to the project directory.
+
+```bash
+cd AI-Recipe-Generator
+```
+
+---
+
+### 2. Create a Virtual Environment
+
+```bash
+python -m venv venv311
+```
+
+Activate the environment.
+
+**Windows**
+
+```bash
+venv311\Scripts\activate
+```
+
+---
+
+### 3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4️⃣ Database Migration
+---
+
+### 4. Download the Dataset
+
+Download the dataset using the Google Drive link provided above and place it inside the **datasets** folder.
+
+---
+
+### 5. Apply Database Migrations
 
 ```bash
-python manage.py makemigrations
 python manage.py migrate
 ```
 
-### 5️⃣ Create Superuser (Optional)
+---
 
-```bash
-python manage.py createsuperuser
-```
-
-### 6️⃣ Run Development Server
+### 6. Run the Development Server
 
 ```bash
 python manage.py runserver
 ```
 
-Open browser and visit:
+Open your browser and visit:
 
 ```
 http://127.0.0.1:8000/
@@ -116,103 +185,53 @@ http://127.0.0.1:8000/
 
 ---
 
-## 🤖 AI Configuration (Optional)
+## 🧠 How It Works
 
-If using OpenAI API:
-
-1. Get API key from [https://platform.openai.com](https://platform.openai.com)
-2. Create `.env` file
-
-```
-OPENAI_API_KEY=your_api_key_here
-```
-
-3. Install dotenv
-
-```bash
-pip install python-dotenv
-```
-
-4. Load environment variables in `settings.py`
+1. The user enters one or more ingredients.
+2. The input is converted into semantic embeddings using Sentence Transformers.
+3. FAISS performs a similarity search against the indexed recipe embeddings.
+4. The most relevant recipes are retrieved.
+5. Recipe details are displayed through the Django web interface.
 
 ---
 
-## 🧪 Usage
+## 📦 Major Libraries
 
-1. Register or Login
-2. Enter ingredients
-3. Select preferences
-4. Click "Generate Recipe"
-5. View AI-generated recipe
-6. Save favorite recipes
-
----
-
-
-## 📝 Requirements File (Sample)
-
-```
-Django>=4.0
-openai
-python-dotenv
-requests
-Pillow
-```
+- Django
+- Sentence Transformers
+- FAISS
+- NumPy
+- Pandas
+- Scikit-learn
+- Torch
 
 ---
 
-## 🚀 Future Enhancements
+## 🔮 Future Enhancements
 
-* Voice-based input
-* Mobile App Version
-* Nutrition Analysis
-* Multilingual Support
-* Recommendation System
-
----
-
-## ⚠️ Common Errors
-
-| Issue                    | Solution          |
-| ------------------------ | ----------------- |
-| Server not starting      | Check migrations  |
-| API error                | Verify API key    |
-| Static files not loading | Run collectstatic |
-
----
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a new branch
-3. Make changes
-4. Commit changes
-5. Push to GitHub
-6. Create Pull Request
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License.
+- User Authentication
+- Personalized Recipe Recommendations
+- Voice-Based Ingredient Search
+- Nutrition Analysis
+- AI Meal Planner
+- Shopping List Generator
+- Recipe Image Generation
+- Favorite Recipes
+- Recipe Rating & Reviews
 
 ---
 
 ## 👩‍💻 Author
 
-**sreehitha reddy puli**
-B.Tech Computer Science Student
-Email: [sreehithareddypuli@email.com](mailto:sreehithareddypuli@email.com)
-GitHub: [https://github.com/sreehithareddypuli05](https://github.com/sreehithareddypuli05)
+**Sreehitha Reddy Puli**
+
+**GitHub:**  
+https://github.com/sreehithareddypuli05
 
 ---
 
-## ❤️ Acknowledgements
+## ⭐ Support
 
-* Django Documentation
-* ollama phi3
-* Stack Overflow Community
+If you found this project useful, please consider giving it a ⭐ on GitHub.
 
----
-
-> ⭐ If you like this project, give it a star on GitHub!
+It helps others discover the project and motivates future improvements.
